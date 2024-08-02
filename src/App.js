@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import CalculatorForm from "./components/CalculatorForm";
+import Results from "./components/Results";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [results, setResults] = useState(null);
+
+  const calculateFootprint = (data) => {
+    const electricity = data.electricity * 0.233;
+    const gas = data.gas * 2.039;
+    const water = data.water * 0.001;
+    const waste = data.waste * 0.5;
+    const total = electricity + gas + water + waste;
+
+    setResults({ electricity, gas, water, waste, total });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header />
+      <main>
+        <CalculatorForm calculateFootprint={calculateFootprint} />
+        {results && <Results results={results} />}
+      </main>
     </div>
   );
-}
+};
 
 export default App;
